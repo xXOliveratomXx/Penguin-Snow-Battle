@@ -33,6 +33,26 @@ public class PlayerMovement : MonoBehaviour
     public float jumpheigth = 3f;
 
 
+    public bool isSprinting;
+
+    public float sprintSpeedMultiplier = 2f;
+
+    private float sprintSpeed = 1;
+
+
+    public float staminaUseAmount = 5f;
+
+    private StaminaBar staminaSlider;
+
+
+
+    void Start()
+    {
+        //encontrar la slider de stamina en la escena
+        //como tiene el script stamina bar , lo busca y lo asigna a la variable
+        staminaSlider = FindObjectOfType<StaminaBar>();
+    }
+
 
     void Update()
     {
@@ -58,19 +78,14 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = transform.right * x + transform.forward * z;
 
 
-        //salto
-        
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
-            //sqrt raiz cuadrada
-            velocity.y = Mathf.Sqrt(jumpheigth * -2f * gravity);
-        }
+        JunpCheck();
+        RunCheck();
 
 
 
         //esto le asigna el movimiento al caracter controler del player 
         //y le asigna la velocidad que se le dio en el inspector
-        characterController.Move(move * speed * Time.deltaTime);
+        characterController.Move(move * speed * Time.deltaTime * sprintSpeed);
 
         // si alguien juega a 30 y alguien a 60 fps, el que juega a 30 fps se movera mas lento
         //por eso se multiplica por Time.deltaTime
@@ -88,5 +103,46 @@ public class PlayerMovement : MonoBehaviour
 
 
 
+    }
+    public void JunpCheck()
+    {
+
+        //salto
+
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            //sqrt raiz cuadrada
+            velocity.y = Mathf.Sqrt(jumpheigth * -2f * gravity);
+        }
+    }
+
+    public void RunCheck()
+    {
+
+        //checar bien lo de las corutinas logica para correr
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            isSprinting = !isSprinting;
+            //para que no se solapen entre ellas
+
+            if (isSprinting)
+            {
+                staminaSlider.UseStamina(staminaUseAmount);
+            }
+            else
+            {
+                staminaSlider.UseStamina(0);
+            }
+        }
+
+        if (isSprinting)
+        {
+            sprintSpeed = sprintSpeedMultiplier;
+        }
+        else
+        {
+            sprintSpeed = 1;
+
+        }
     }
 }

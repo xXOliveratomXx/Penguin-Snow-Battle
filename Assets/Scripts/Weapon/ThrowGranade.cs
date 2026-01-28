@@ -20,5 +20,7 @@ public class ThrowGranade : MonoBehaviour
 
 
         newgranade.GetComponent<Rigidbody>().AddForce(transform.forward * throwForce);
+
+        //Destroy(gameObject,10);
     }
 }

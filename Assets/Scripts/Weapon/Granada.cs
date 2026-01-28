@@ -15,9 +15,16 @@ public class Granada : MonoBehaviour
 
     public GameObject explotionEffect;
 
+
+
+    private AudioSource audioSource;
+
+    public AudioClip explotionSound;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         countdown = delay;
     }
 
@@ -31,6 +38,7 @@ public class Granada : MonoBehaviour
 
         if (countdown <= 0f && !exploted)
         {
+
             Explode();
             exploted = true;
         }
@@ -55,7 +63,13 @@ public class Granada : MonoBehaviour
             }
         }
 
+        audioSource.PlayOneShot(explotionSound);
+
+        gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        //gameObject.GetComponent<MeshRenderer>().enabled = false;
+
+
         //destruir granada
-        Destroy(gameObject);
+        Destroy(gameObject,delay * 2);
     }
 }

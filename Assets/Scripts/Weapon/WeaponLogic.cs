@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Gun : MonoBehaviour
+public class WeaponLogic : MonoBehaviour
 {
 
 
@@ -16,7 +16,15 @@ public class Gun : MonoBehaviour
 
     private float shootRateTime = 0f;
 
-  
+    private AudioSource audioSource;
+
+    public AudioClip shotSound;
+
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     void Update()
     {
@@ -28,6 +36,8 @@ public class Gun : MonoBehaviour
             //para la cadencia
             if (Time.time > shootRateTime && GameManager.Instance.gunammo > 0)
             {
+                audioSource.PlayOneShot(shotSound);
+
                 GameManager.Instance.gunammo--;
 
                 GameObject newBullet;

@@ -26,9 +26,14 @@ public class AI : MonoBehaviour
 
     //public GameObject destination1;
     //public GameObject destination2;
-    
+
     void Start()
     {
+        if (destinations == null || destinations.Length == 0)
+        {
+            transform.gameObject.GetComponent<AI>().enabled = false;    
+        }
+
         //aqui mandamos al agente a el destino que es el destination1
         naveMeshAgent.destination = destinations[0].transform.position;
 

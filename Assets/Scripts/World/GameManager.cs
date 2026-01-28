@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 
 public class GameManager : MonoBehaviour
@@ -19,7 +20,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI healthText;
 
     public int gunammo = 12;
-    public int health = 12;
+    public int health = 100;
 
     private void Awake()
     {
@@ -31,6 +32,25 @@ public class GameManager : MonoBehaviour
     {
         ammoText.text = gunammo.ToString();
         healthText.text = health.ToString();
+    }
+
+
+    public void LoseHealth(int healthToReduce)
+    {
+        health -= healthToReduce;
+        CheckHealth();
+
+    }
+
+
+    public void CheckHealth()
+    {
+        if (health <= 0)
+        {
+            Debug.Log("Haz muerto");
+            
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class PlayerInteractions : MonoBehaviour
 {
-
+    public Transform startPosition;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("GunAmmo"))
@@ -14,5 +14,32 @@ public class PlayerInteractions : MonoBehaviour
             
             Destroy(other.gameObject);
         }
+
+        if (other.gameObject.CompareTag("DeathFloor"))
+        {
+            //perder vida
+            GameManager.Instance.LoseHealth(50);
+            //respawnear a nuestro player
+
+            GetComponent<CharacterController>().enabled = false; // Desactivar el CharacterController temporalmente
+            gameObject.transform.position = startPosition.position;
+            GetComponent<CharacterController>().enabled = true; // Desactivar el CharacterController temporalmente
+
+        }
+
+
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("EnemyBullet"))
+        {
+            //perder vida
+            GameManager.Instance.LoseHealth(5);
+            
+        }
+
+    }
+
+
 }
