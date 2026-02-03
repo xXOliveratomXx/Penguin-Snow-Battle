@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 
 
+
+
 public class StaminaBar : MonoBehaviour
 {
     
@@ -27,6 +29,7 @@ public class StaminaBar : MonoBehaviour
         staminaSlider.maxValue = maxStamina;
         staminaSlider.value = maxStamina;
     }
+
 
     public void UseStamina(float amount)
     {
@@ -53,6 +56,7 @@ public class StaminaBar : MonoBehaviour
             FindObjectOfType<PlayerMovement>().isSprinting = false;
         }
     }
+
 
     private IEnumerator LosingStaminaCoroutine(float amount)
     {
