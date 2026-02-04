@@ -21,14 +21,18 @@ public class Granada : MonoBehaviour
 
     public AudioClip explotionSound;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    public float damage = 50f;
+
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
         countdown = delay;
     }
 
-    // Update is called once per frame
+
+
     void Update()
     {
         countdown -= Time.deltaTime;
@@ -56,6 +60,14 @@ public class Granada : MonoBehaviour
 
         foreach (var rangeObjects in colliders)
         {
+            //Aplicar fuerza de explocion
+            AI ai = rangeObjects.GetComponent<AI>();
+
+            if (ai != null)
+            {
+                ai.GrenadeImpact(damage);
+            }
+            
             Rigidbody rb = rangeObjects.GetComponent<Rigidbody>();
             if (rb != null)
             {
@@ -71,5 +83,6 @@ public class Granada : MonoBehaviour
 
         //destruir granada
         Destroy(gameObject,delay * 2);
+        
     }
 }

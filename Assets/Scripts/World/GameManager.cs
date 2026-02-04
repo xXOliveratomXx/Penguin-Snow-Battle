@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     public int gunammo = 12;
     public int health = 100;
 
+
+    public int maxHealth = 100;
+
     private void Awake()
     {
         Instance = this;
@@ -51,6 +54,21 @@ public class GameManager : MonoBehaviour
             
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+    }
+
+
+    public void AddHealth(int healthToAdd)
+    {
+        // si mi vida mas la vida que viene es mayor o igual a mi vida maxima se queda en 100
+        if (this.health + healthToAdd >= maxHealth)
+        {
+            this.health = 100;
+        }
+        else
+        {
+            this.health += healthToAdd;
+        }
+
     }
 
 

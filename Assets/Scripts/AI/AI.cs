@@ -24,6 +24,8 @@ public class AI : MonoBehaviour
 
     private GameObject player;
 
+    public float liveEnemy = 100;
+
     //public GameObject destination1;
     //public GameObject destination2;
 
@@ -107,4 +109,23 @@ public class AI : MonoBehaviour
         // Aqui podemos hacer que el agente siga al jugador
         naveMeshAgent.destination = player.transform.position;
     }
+
+
+    public void GrenadeImpact(float damage)
+    {
+        LooseLife(damage);
+    }
+
+
+    public void LooseLife(float LiveToLose)
+    {
+        liveEnemy = liveEnemy - LiveToLose;
+
+        if(liveEnemy <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
 }

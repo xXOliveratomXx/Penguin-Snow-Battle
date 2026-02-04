@@ -15,6 +15,15 @@ public class PlayerInteractions : MonoBehaviour
             Destroy(other.gameObject);
         }
 
+
+        if (other.gameObject.CompareTag("HealthObject"))
+        {
+            //accedemos al gamemanager , le añadimos la municion de la caja , del script ammobox
+            GameManager.Instance.AddHealth(other.gameObject.GetComponent<HealthObject>().health);
+
+            Destroy(other.gameObject);
+        }
+
         if (other.gameObject.CompareTag("DeathFloor"))
         {
             //perder vida

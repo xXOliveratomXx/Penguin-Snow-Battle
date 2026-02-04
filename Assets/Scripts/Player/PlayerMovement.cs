@@ -45,6 +45,9 @@ public class PlayerMovement : MonoBehaviour
     private StaminaBar staminaSlider;
 
 
+    public Animator animator;
+
+
 
     void Start()
     {
@@ -73,7 +76,11 @@ public class PlayerMovement : MonoBehaviour
 
         float z = Input.GetAxis("Vertical");
 
-    
+        animator.SetFloat("VelX", x);
+        animator.SetFloat("VelZ", z);
+        animator.SetBool("isSprinting", isSprinting);
+
+
         //esto es para mover al jugador adelante o hacia atras 
         Vector3 move = transform.right * x + transform.forward * z;
 
@@ -89,9 +96,6 @@ public class PlayerMovement : MonoBehaviour
 
         // si alguien juega a 30 y alguien a 60 fps, el que juega a 30 fps se movera mas lento
         //por eso se multiplica por Time.deltaTime
-
-
-
 
 
 
@@ -111,8 +115,15 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
+
             //sqrt raiz cuadrada
             velocity.y = Mathf.Sqrt(jumpheigth * -2f * gravity);
+            animator.SetBool("isJumping",true);
+        }
+        //para que cuando caiga no se quede el bool en true
+        if (!isGrounded)
+        {
+            animator.SetBool("isJumping", false);
         }
     }
 

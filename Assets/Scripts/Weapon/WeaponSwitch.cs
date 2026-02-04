@@ -44,6 +44,26 @@ public class WeaponSwitch : MonoBehaviour
             }
         }
 
+        //mover con los numeros del 1 al 9
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            selectedWeapon = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2) && weapons.Length >= 2)
+        {
+            selectedWeapon = 1;
+        }
+        
+
+        //SI TIENES MAS ARMAS PONES MAS DE ESTO
+
+
+
+
+
+
+
         //para evitar si tenemos el arma llame al mismo metodo
         if (previousWeapon != selectedWeapon)
         {
