@@ -8,7 +8,7 @@ public class ThrowGranade : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && Time.timeScale != 0)
+        if (Input.GetKeyDown(KeyCode.Q) && Time.timeScale != 0)
         {
             Throw();
         }
