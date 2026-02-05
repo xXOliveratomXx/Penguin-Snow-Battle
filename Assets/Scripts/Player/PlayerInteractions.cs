@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using Unity.VisualScripting;
 
 //interface IInteractable
 //{
@@ -17,6 +19,7 @@ public class PlayerInteractions : MonoBehaviour
     public float distancia;
 
     //para el canvas
+    
     public Texture2D puntero;
     public GameObject TextDetect;
     GameObject ultimoReconocido = null;
@@ -59,6 +62,17 @@ public class PlayerInteractions : MonoBehaviour
                     //}
                 }
             }
+            if (hit.collider.tag == "HealthObject")
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    //accedemos al gamemanager , le a�adimos la municion de la caja , del script ammobox
+                    GameManager.Instance.AddHealth(hit.collider.gameObject.GetComponent<HealthObject>().health);
+
+                    Destroy(hit.collider.gameObject);
+
+                }
+            }
             //esta linea es para ver el rayo en la escena
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * distancia, Color.red);
         }
@@ -85,8 +99,15 @@ public class PlayerInteractions : MonoBehaviour
 
     void OnGUI()
     {
+        //Rect rect = new Rect(Screen.width / 2, Screen.height / 2, puntero.width, puntero.height);
+        //GUI.DrawTexture(rect, puntero);        
         Rect rect = new Rect(Screen.width / 2, Screen.height / 2, puntero.width, puntero.height);
+        
+        //para hacer el puntero mas grande haremos esto
+
+
         GUI.DrawTexture(rect, puntero);
+
 
         if (ultimoReconocido)
         {
@@ -102,13 +123,13 @@ public class PlayerInteractions : MonoBehaviour
     {
 
 
-        if (other.gameObject.CompareTag("HealthObject"))
-        {
-            //accedemos al gamemanager , le a�adimos la municion de la caja , del script ammobox
-            GameManager.Instance.AddHealth(other.gameObject.GetComponent<HealthObject>().health);
+        //if (other.gameObject.CompareTag("HealthObject"))
+        //{
+        //    //accedemos al gamemanager , le a�adimos la municion de la caja , del script ammobox
+        //    GameManager.Instance.AddHealth(other.gameObject.GetComponent<HealthObject>().health);
 
-            Destroy(other.gameObject);
-        }
+        //    Destroy(other.gameObject);
+        //}
 
         if (other.gameObject.CompareTag("DeathFloor"))
         {
@@ -122,11 +143,11 @@ public class PlayerInteractions : MonoBehaviour
 
         }
 
-        if (other.gameObject.CompareTag("GunAmmo"))
-        {
-            //accedemos al gamemanager , le añadimos la municion de la caja , del script ammobox
-            itemsInTrigger.Add(other);
-        }
+        //if (other.gameObject.CompareTag("GunAmmo"))
+        //{
+        //    //accedemos al gamemanager , le añadimos la municion de la caja , del script ammobox
+        //    itemsInTrigger.Add(other);
+        //}
 
 
     }
