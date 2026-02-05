@@ -2,65 +2,100 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-interface IInteractable
-{
-    public void Interact();
-}
+//interface IInteractable
+//{
+//    public void Interact();
+//}
 
 public class PlayerInteractions : MonoBehaviour
 {
     public Transform startPosition;
     private List<Collider> itemsInTrigger = new List<Collider>();
 
+    //lo de la mascara que te dije
+    LayerMask mask;
+    public float distancia;
+
+    //para el canvas
+    public Texture2D puntero;
+    public GameObject TextDetect;
+    GameObject ultimoReconocido = null;
     //public Transform InteractorSource;
     //public float interactRange;
+
+    private void Start()
+    {
+        //definimos la mascara para que solo interactue con los objetos que queremos
+        mask = LayerMask.GetMask("RaycastDetect");
+        TextDetect.SetActive(false);
+    }
     void Update()
     {
-
-
-        if (Input.GetKeyDown(KeyCode.I))
+        RaycastHit hit;
+        if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, distancia, mask))
         {
-            for (int i = itemsInTrigger.Count - 1; i >= 0; i--)
+            Deselect();
+            SelectedObject(hit.transform);
+            if (hit.collider.tag == "GunAmmo")
             {
-                Collider other = itemsInTrigger[i];
-
-                if (other.gameObject.CompareTag("GunAmmo"))
+                if (Input.GetKeyDown(KeyCode.I))
                 {
-                    //accedemos al gamemanager , le añadimos la municion de la caja , del script ammobox
-                    GameManager.Instance.gunammo += other.gameObject.GetComponent<AmmoBox>().ammo;
+                    GameManager.Instance.gunammo += hit.collider.gameObject.GetComponent<AmmoBox>().ammo;
 
-                    Destroy(other.gameObject);
+                    Destroy(hit.collider.gameObject);
+                    ////hit.collider.gameObject.GetComponent<AmmoBox>().Interact();
+                    //for (int i = itemsInTrigger.Count - 1; i >= 0; i--)
+                    //{
+                    //    Collider other = itemsInTrigger[i];
+
+                    //    if (other.gameObject.CompareTag("GunAmmo"))
+                    //    {
+                    //        //accedemos al gamemanager , le añadimos la municion de la caja , del script ammobox
+                    //        GameManager.Instance.gunammo += other.gameObject.GetComponent<AmmoBox>().ammo;
+
+                    //        Destroy(other.gameObject);
+                    //    }
+
+                    //}
                 }
-
             }
+            //esta linea es para ver el rayo en la escena
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * distancia, Color.red);
         }
+        else
+        {
+            Deselect();
+        }
+    }
+    void SelectedObject(Transform transform)
+    {
+        transform.GetComponent<MeshRenderer>().material.color = Color.cyan;
+        ultimoReconocido = transform.gameObject;
+    }
 
-        //if (Input.GetKeyDown(KeyCode.I))
-        //{
-        //    Ray r = new Ray(InteractorSource.position, InteractorSource.forward);
-        //    if (Physics.Raycast(r, out RaycastHit hitinfo, interactRange))
-        //    {
-        //        // Primero, intentar la interfaz genérica
-        //        if (hitinfo.collider.gameObject.TryGetComponent(out IInteractable interactObj))
-        //        {
-        //            interactObj.Interact();
-        //            return;
-        //        }
+    void Deselect()
+    {
+        if(ultimoReconocido)
+        {
+            ultimoReconocido.GetComponent<Renderer>().material.color = Color.white;
+            ultimoReconocido = null;
+        }
+    
+    }
 
-        //        // Fallback específico para cajas de munición tipo cofre
-        //        var go = hitinfo.collider.gameObject;
-        //        if (go.CompareTag("GunAmmo"))
-        //        {
-        //            var box = go.GetComponent<AmmoBox>();
-        //            if (box != null)
-        //            {
-        //                GameManager.Instance.gunammo += box.ammo;
-        //                Destroy(go);
-        //            }
-        //        }
-        //    }
-        //}
+    void OnGUI()
+    {
+        Rect rect = new Rect(Screen.width / 2, Screen.height / 2, puntero.width, puntero.height);
+        GUI.DrawTexture(rect, puntero);
 
+        if(ultimoReconocido)
+        {
+            TextDetect.SetActive(true);
+        }
+        else
+        {
+            TextDetect.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
