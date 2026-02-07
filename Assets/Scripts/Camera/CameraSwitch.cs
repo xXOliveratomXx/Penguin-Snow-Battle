@@ -8,6 +8,10 @@ public class CameraSwitch : MonoBehaviour
 
     private bool firtPersonEnable = true;
 
+    // Scripts de cámara
+    public Cameralook cameraLookScript;
+    public ThirdPersonCamera thirdPersonCameraScript;
+
     //Armas cambio de vista
 
     public Transform[] weaponsTransformFirstPerson;
@@ -33,6 +37,16 @@ public class CameraSwitch : MonoBehaviour
         {
             meshPlayer.enabled = false;
         }
+
+        // Encontrar los scripts si no están asignados en el inspector
+        if (cameraLookScript == null)
+        {
+            cameraLookScript = firstPersonCamera.GetComponent<Cameralook>();
+        }
+        if (thirdPersonCameraScript == null)
+        {
+            thirdPersonCameraScript = thirdPersonCamera.GetComponent<ThirdPersonCamera>();
+        }
     }
 
     //para desactivar mesh del player en first person
@@ -46,7 +60,7 @@ public class CameraSwitch : MonoBehaviour
             firtPersonEnable = !firtPersonEnable;
             ChangedCamera();
         }
-        
+
     }
 
 
@@ -67,6 +81,14 @@ public class CameraSwitch : MonoBehaviour
             firstPersonCamera.enabled = true;
             thirdPersonCamera.enabled = false;
 
+            // Habilitar script de primera persona
+            if (cameraLookScript != null)
+                cameraLookScript.enabled = true;
+
+            // Deshabilitar script de tercera persona
+            if (thirdPersonCameraScript != null)
+                thirdPersonCameraScript.enabled = false;
+
             ChangedWeaponFirtPerson();
         }
         else
@@ -78,12 +100,18 @@ public class CameraSwitch : MonoBehaviour
             firstPersonCamera.enabled = false;
             thirdPersonCamera.enabled = true;
 
+            // Deshabilitar script de primera persona
+            if (cameraLookScript != null)
+                cameraLookScript.enabled = false;
+
+            // Habilitar script de tercera persona
+            if (thirdPersonCameraScript != null)
+                thirdPersonCameraScript.enabled = true;
+
             ChangedWeaponThirdPerson();
         }
 
     }
-
-
 
     public void ChangedWeaponFirtPerson()
     {
@@ -110,4 +138,6 @@ public class CameraSwitch : MonoBehaviour
 
 
     }
+
+
 }

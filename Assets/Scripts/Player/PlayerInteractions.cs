@@ -21,8 +21,9 @@ public class PlayerInteractions : MonoBehaviour
     //para el canvas
     
     public Texture2D puntero;
-    public GameObject TextDetect;
+    //public GameObject TextDetect;
     GameObject ultimoReconocido = null;
+    MeshRenderer ultimoPlaneRenderer = null;
     //public Transform InteractorSource;
     //public float interactRange;
 
@@ -30,7 +31,6 @@ public class PlayerInteractions : MonoBehaviour
     {
         //definimos la mascara para que solo interactue con los objetos que queremos
         mask = LayerMask.GetMask("RaycastDetect");
-        TextDetect.SetActive(false);
     }
     void Update()
     {
@@ -85,6 +85,21 @@ public class PlayerInteractions : MonoBehaviour
     {
         transform.GetComponent<MeshRenderer>().material.color = Color.cyan;
         ultimoReconocido = transform.gameObject;
+        
+        // Buscar el Plane en la jerarquía (hijo del hijo)
+        Transform pivot = transform.Find("Pivot");
+        if (pivot != null)
+        {
+            Transform plane = pivot.Find("Plane");
+            if (plane != null)
+            {
+                ultimoPlaneRenderer = plane.GetComponent<MeshRenderer>();
+                if (ultimoPlaneRenderer != null)
+                {
+                    ultimoPlaneRenderer.enabled = true;
+                }
+            }
+        }
     }
 
     void Deselect()
@@ -94,29 +109,20 @@ public class PlayerInteractions : MonoBehaviour
             ultimoReconocido.GetComponent<Renderer>().material.color = Color.white;
             ultimoReconocido = null;
         }
-
+        
+        if (ultimoPlaneRenderer != null)
+        {
+            ultimoPlaneRenderer.enabled = false;
+            ultimoPlaneRenderer = null;
+        }
     }
 
     void OnGUI()
     {
-        //Rect rect = new Rect(Screen.width / 2, Screen.height / 2, puntero.width, puntero.height);
-        //GUI.DrawTexture(rect, puntero);        
-        Rect rect = new Rect(Screen.width / 2, Screen.height / 2, puntero.width, puntero.height);
-        
-        //para hacer el puntero mas grande haremos esto
 
+        Rect rect = new Rect(Screen.width / 2, Screen.height / 2, puntero.width, puntero.height);
 
         GUI.DrawTexture(rect, puntero);
-
-
-        if (ultimoReconocido)
-        {
-            TextDetect.SetActive(true);
-        }
-        else
-        {
-            TextDetect.SetActive(false);
-        }
     }
 
     private void OnTriggerEnter(Collider other)

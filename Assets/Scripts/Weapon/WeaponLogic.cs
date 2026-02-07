@@ -11,7 +11,7 @@ public class WeaponLogic : MonoBehaviour
     public GameObject bullet;
 
 
-    public float shotforce  = 15f;
+    public float shotforce = 15f;
     public float shotRate = 0.3f;
 
     private float shootRateTime = 0f;
@@ -51,7 +51,7 @@ public class WeaponLogic : MonoBehaviour
                 }
 
             }
-            
+
 
         }
         else if (Input.GetButtonUp("Fire1") && continueShooting && Time.timeScale != 0)
