@@ -59,6 +59,15 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        // Si el EmotePanel está abierto, no procesar input de movimiento
+        if (EmotePanel.isEmotePanelActive)
+        {
+            // Mantener la gravedad aunque no se pueda mover
+            velocity.y += gravity * Time.deltaTime;
+            characterController.Move(velocity * Time.deltaTime);
+            return;
+        }
+
         //esto es para saber si el player esta en el suelo o no mediante una funcion de unity
         //CheckSphere crea una esfera en el punto que le digamos, en este caso groundCheck.position
         isGrounded = Physics.CheckSphere(groundCheck.position, sphereRadius, groundMask);
@@ -156,4 +165,14 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
+
+
+    public void Barrido()
+    {
+
+
+    }
+
+
+
 }

@@ -10,6 +10,7 @@ TagManager:
   - EnemyBullet
   - Destruible
   - HealthObject
+  - cambiar_color
   layers:
   - Default
   - TransparentFX

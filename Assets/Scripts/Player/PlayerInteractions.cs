@@ -38,7 +38,13 @@ public class PlayerInteractions : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, distancia, mask))
         {
             Deselect();
+
+
+            //tarea de color
             SelectedObject(hit.transform);
+            //tarea de color
+
+
             if (hit.collider.tag == "GunAmmo")
             {
                 if (Input.GetKeyDown(KeyCode.E))
@@ -73,8 +79,33 @@ public class PlayerInteractions : MonoBehaviour
 
                 }
             }
+
+
+
+            //tarea de color
+
+
+            //if (hit.collider.tag == "cambiar_color")
+            //{
+            //    if (Input.GetKeyDown(KeyCode.E))
+            //    {
+
+            //        //accedemos al gamemanager , le a�adimos la municion de la caja , del script ammobox
+            //        cambiar_color script_color = hit.collider.gameObject.GetComponent<cambiar_color>();
+
+            //        script_color.cambiar();
+
+            //    }
+            //}
+
+
+            //tarea de color
+
+
             //esta linea es para ver el rayo en la escena
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * distancia, Color.red);
+            //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * distancia, Color.red);
+
+
         }
         else
         {

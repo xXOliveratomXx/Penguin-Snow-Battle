@@ -24,6 +24,7 @@ public class CameraSwitch : MonoBehaviour
     public bool disableMeshPlayerFirstPerson = true;
 
     public SkinnedMeshRenderer meshPlayer;
+    public MeshRenderer powerup;
 
     //variables para desabilitar el mesh del player en first person
 
@@ -33,10 +34,10 @@ public class CameraSwitch : MonoBehaviour
     //para desactivar mesh del player en first person
     void Start()
     {
-        if (disableMeshPlayerFirstPerson)
-        {
-            meshPlayer.enabled = false;
-        }
+        //if (disableMeshPlayerFirstPerson)
+        //{
+        //    meshPlayer.enabled = false;
+        //}
 
         // Encontrar los scripts si no están asignados en el inspector
         if (cameraLookScript == null)
@@ -60,6 +61,8 @@ public class CameraSwitch : MonoBehaviour
             firtPersonEnable = !firtPersonEnable;
             ChangedCamera();
         }
+
+        //Upgrade();
 
     }
 
@@ -138,6 +141,24 @@ public class CameraSwitch : MonoBehaviour
 
 
     }
+
+
+    //EJERCICIO CLASE 25/02/2026
+
+
+    //public void Upgrade()
+    //{
+    //    if (GameManager.Instance.gunammo >= 514)
+    //    {
+    //        if (meshPlayer.enabled == true)
+    //        {
+    //            meshPlayer.enabled = false;
+    //        }
+            
+    //        powerup.enabled = true;
+    //    }
+        
+    //}
 
 
 }

@@ -31,10 +31,14 @@ public class WeaponLogic : MonoBehaviour
 
     void Update()
     {
+        // Si el EmotePanel está abierto, no procesar disparo
+        if (EmotePanel.isEmotePanelActive)
+            return;
+
         //fire1 click izquierdo
         //Input.GetKeyDown("Mouse0") 
         //click izquierdo
-        if (Input.GetButtonDown("Fire1") && Time.timeScale != 0)
+        if (Input.GetMouseButtonDown(0) && Time.timeScale != 0)
         {
             //para la cadencia
             if (Time.time > shootRateTime && GameManager.Instance.gunammo > 0)
@@ -54,7 +58,7 @@ public class WeaponLogic : MonoBehaviour
 
 
         }
-        else if (Input.GetButtonUp("Fire1") && continueShooting && Time.timeScale != 0)
+        else if (Input.GetMouseButtonUp(0) && continueShooting && Time.timeScale != 0)
         {
             //dejar de llamar al metodo shoot
             CancelInvoke("Shoot");

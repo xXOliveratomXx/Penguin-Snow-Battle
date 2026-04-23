@@ -46,6 +46,10 @@ public class ThirdPersonCamera : MonoBehaviour
 
     void LateUpdate()
     {
+        // Si el EmotePanel está abierto, no procesar input de cámara
+        if (EmotePanel.isEmotePanelActive)
+            return;
+
         // Obtener input del mouse (SOLO EJE Y para la cámara)
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;

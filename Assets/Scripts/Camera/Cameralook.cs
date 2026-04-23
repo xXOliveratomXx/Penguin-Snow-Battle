@@ -23,6 +23,9 @@ public class Cameralook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Si el EmotePanel está abierto, no procesar input de cámara
+        if (EmotePanel.isEmotePanelActive)
+            return;
 
         // esto guarda la rotacion del mouse en el eje X y Y
         float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
